@@ -9,14 +9,7 @@ plugin:
     de-DE: "An example plugin for the plugin's workshop."
     en-US: "An example plugin for the plugin's workshop."
   webfrontend:
-    url: workshop-plugin.1.js
+    url: workshop-example-1.js
     l10n: l10n/
-    css: workshop-plugin.1.css
-
-base_config:
-  - name: workshop-example-1
-    group: workshop
-    parameters:
-      text:
-        type: text
-        position: 0
+    css: workshop-example-1.css
+    html: workshop-example-1.html
