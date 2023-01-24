@@ -1,0 +1,22 @@
+plugin:
+  name: workshop-example-1
+  version: 1.0
+  url: https://github.com/programmfabrik/easydb-example-plugin
+  displayname:
+    de-DE: Workshop 1
+    en-US: Workshop 1
+  info:
+    de-DE: "An example plugin for the plugin's workshop."
+    en-US: "An example plugin for the plugin's workshop."
+  webfrontend:
+    url: workshop-plugin.1.js
+    l10n: l10n/
+    css: workshop-plugin.1.css
+
+base_config:
+  - name: workshop-example-1
+    group: workshop
+    parameters:
+      text:
+        type: text
+        position: 0
