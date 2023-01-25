@@ -46,6 +46,7 @@ WorkshopRootApp = (function(superClass) {
     WorkshopRootApp.__super__.load.call(this);
     this.__plugin = ez5.pluginManager.getPlugin("workshop-example-1");
     itemList = new CUI.ItemList({
+      "class": "workshop-example-itemlist",
       items: [
         {
           active: true,
@@ -199,6 +200,7 @@ WorkshopRootApp = (function(superClass) {
     dfr = new CUI.Deferred();
     locationFieldByObjecttype = {};
     validObjecttypes = [];
+    console.log("Objecttypes with columns data:", ez5.schema.CURRENT._objecttype_by_name);
     ref = ez5.schema.CURRENT._objecttype_by_name;
     for (objecttypeName in ref) {
       objecttype = ref[objecttypeName];
@@ -214,6 +216,7 @@ WorkshopRootApp = (function(superClass) {
         }
       }
     }
+    console.log(locationFieldByObjecttype);
     ez5.api.search({
       data: {
         debug: "WorkShopDebug"

@@ -29,6 +29,7 @@ class WorkshopRootApp extends RootMenuApp
     @__plugin = ez5.pluginManager.getPlugin("workshop-example-1")
 
     itemList = new CUI.ItemList
+      class: "workshop-example-itemlist"
       items: [
         active: true
         loca_key: "workshop-example-1.item1"
