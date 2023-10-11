@@ -1,32 +1,51 @@
-PLUGIN_NAME = workshop-example-1
-PLUGIN_PATH = workshop-example-1
+COFFEE_FILES_WEB = \
+    src/webfrontend/js/RootApp.coffee \
 
-INSTALL_FILES = \
-    $(WEB)/l10n/cultures.json \
-    $(WEB)/l10n/de-DE.json \
-    $(CSS) \
-    /l10n/en-US.json \
-	$(WEB)/workshop-plugin.1.js \
-	$(WEB)/workshop-example-1.html \
-	manifest.yml
+JS_WEB = build/workshop/webfrontend/workshop.js
 
-L10N_FILES = l10n/workshop-1-plugin.csv
+PLUGIN_NAME = workshop
+ZIP_NAME ?= $(PLUGIN_NAME).zip
+BUILD_DIR = build
 
-SCSS_FILES = src/webfrontend/workshop-plugin.1.scss
+## Style Files
+SCSS_FILES = src/webfrontend/scss/main.scss
 
-COFFEE_FILES = \
-    src/webfrontend/workshopRootApp.coffee \
+## HTML Files
+HTML_FILES = \
+    src/webfrontend/html/workshop.html \
 
-HTML_FILES = workshop-example-1.html
+## L10N
+L10N_DIR = $(BUILD_DIR)/$(PLUGIN_NAME)/l10n
+L10N_CSV_FILE = src/l10n/workshop.csv
 
-all: build
+all: build ## build all
 
-include easydb-library/tools/base-plugins.make
+loca:
+	mkdir -p $(L10N_DIR)
+	cp $(L10N_CSV_FILE) $(L10N_DIR)
 
+build: clean code css loca ## build all (creates build folder)
+	mkdir -p $(BUILD_DIR)/$(PLUGIN_NAME)
+	cp manifest.master.yml $(BUILD_DIR)/$(PLUGIN_NAME)/manifest.yml
 
-build: code css
-	for file in $(HTML_FILES); do cp src/webfrontend/$$file build/webfrontend/$$file; done
+code: $(JS_WEB) concat-html ## build Coffeescript
 
-code: $(JS) $(L10N)
+zip: build ## build zip file for publishing
+	cd $(BUILD_DIR) && zip $(ZIP_NAME) -r $(PLUGIN_NAME)
 
-clean: clean-base
+clean: ## clean build files
+	rm -f $(JS)
+	rm -rf $(BUILD_DIR)
+
+${JS_WEB}: $(subst .coffee,.coffee.js,${COFFEE_FILES_WEB})
+	mkdir -p $(dir $@)
+	cat $^ > $@
+
+%.coffee.js: %.coffee
+	coffee -b -p --compile "$^" > "$@" || ( rm -f "$@" ; false )
+
+concat-html: ## Concatenate HTML files
+	cat $(HTML_FILES) > $(BUILD_DIR)/$(PLUGIN_NAME)/webfrontend/workshop.html
+
+css: ## Compile SASS to CSS
+	sass $(SCSS_FILES):$(BUILD_DIR)/$(PLUGIN_NAME)/webfrontend/workshop.css

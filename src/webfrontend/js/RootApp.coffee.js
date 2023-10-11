@@ -101,6 +101,7 @@ WorkshopRootApp = (function(superClass) {
       multiline: true
     });
     verticalListLayout = new CUI.VerticalList({
+      "class": "asdadsaas",
       content: [title, text]
     });
     return this.__horizontalLayout.replace(verticalListLayout, "center");

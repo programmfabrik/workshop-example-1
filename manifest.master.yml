@@ -1,0 +1,37 @@
+plugin:
+  name: fylr-plugin-workshop
+  version: 1.0
+  url: https://github.com/programmfabrik/easydb-example-plugin
+  displayname:
+    de-DE: Fylr Frontend Workshop
+    en-US: Fylr Frontend Workshop
+  l10n: l10n/workshop.csv
+  info:
+    de-DE: "Ein Beispiel-Plugin für den Plugin-Workshop."
+    en-US: "An example plugin for the plugin's workshop."
+webfrontend:
+  url: workshop.js
+  l10n: l10n/
+  css: workshop.css
+  html: workshop.html
+
+base_url_prefix: "webfrontend"
+
+base_config:
+  - name: custom_config_1
+    parameters:
+      value:
+        type: text
+        position: 0
+  - name: custom_config_2
+    parameters:
+      value:
+        type: text
+        position: 1
+  - name: custom_config_3
+    parameters:
+      value:
+        type: json
+        position: 2
+
+

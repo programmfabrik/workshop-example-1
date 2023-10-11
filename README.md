@@ -1,4 +1,4 @@
-# workshop-example-1
+# Fylr Frontend Plugins Workshop
 
 Plugin for showing some examples of a root app plugin.
 
@@ -8,9 +8,6 @@ This plugin is intended for educational purposes and should not be used in produ
  - Coffescript @1.12.7
  - Sass
 
-## Installation
-First after cloning this repository you need to init the repository submodules.
-For build the plugin just run the make command inside the plugin directory. The plugin directory needs to be inside your ez5 plugins directory
 
 ## Usefull links for Plugin development in ez5/fylr 
  - EZ5 Documentation: https://docs.easydb.de/en/technical/
