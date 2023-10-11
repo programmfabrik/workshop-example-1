@@ -1,5 +1,6 @@
 COFFEE_FILES_WEB = \
     src/webfrontend/js/RootApp.coffee \
+    src/webfrontend/js/WorkshopCustomDataType.coffee \
 
 JS_WEB = build/workshop/webfrontend/workshop.js
 

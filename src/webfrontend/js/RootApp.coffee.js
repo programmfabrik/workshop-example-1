@@ -53,28 +53,28 @@ WorkshopRootApp = (function(superClass) {
           loca_key: "workshop-example-1.item1",
           onClick: (function(_this) {
             return function() {
-              return _this.showSimpleElements();
+              return _this.__showSimpleElements();
             };
           })(this)
         }, {
           loca_key: "workshop-example-1.item2",
           onClick: (function(_this) {
             return function() {
-              return _this.showTemplate();
+              return _this.__showTemplate();
             };
           })(this)
         }, {
           loca_key: "workshop-example-1.item3",
           onClick: (function(_this) {
             return function() {
-              return _this.showTemplateTwo();
+              return _this.__showTemplateTwo();
             };
           })(this)
         }, {
           loca_key: "workshop-example-1.item4",
           onClick: (function(_this) {
             return function() {
-              return _this.showMap();
+              return _this.__showConfig();
             };
           })(this)
         }
@@ -91,7 +91,7 @@ WorkshopRootApp = (function(superClass) {
     return CUI.resolvedPromise();
   };
 
-  WorkshopRootApp.prototype.showSimpleElements = function() {
+  WorkshopRootApp.prototype.__showSimpleElements = function() {
     var text, title, verticalListLayout;
     title = new CUI.Label({
       text: "Hello world"
@@ -101,13 +101,12 @@ WorkshopRootApp = (function(superClass) {
       multiline: true
     });
     verticalListLayout = new CUI.VerticalList({
-      "class": "asdadsaas",
       content: [title, text]
     });
     return this.__horizontalLayout.replace(verticalListLayout, "center");
   };
 
-  WorkshopRootApp.prototype.showTemplate = function() {
+  WorkshopRootApp.prototype.__showTemplate = function() {
     var htmlTemplate;
     htmlTemplate = new CUI.Template({
       name: "workshop-template-1"
@@ -115,7 +114,7 @@ WorkshopRootApp = (function(superClass) {
     return this.__horizontalLayout.replace(htmlTemplate, "center");
   };
 
-  WorkshopRootApp.prototype.showTemplateTwo = function() {
+  WorkshopRootApp.prototype.__showTemplateTwo = function() {
     var htmlTemplate, inputData;
     inputData = {};
     htmlTemplate = new CUI.Template({
@@ -139,120 +138,13 @@ WorkshopRootApp = (function(superClass) {
     return this.__horizontalLayout.replace(htmlTemplate, "center");
   };
 
-  WorkshopRootApp.prototype.showMap = function() {
-    var map, staticMarkers;
-    staticMarkers = [
-      {
-        position: {
-          lat: 52.520645,
-          lng: 13.409779
-        },
-        cui_onClick: function(ev) {
-          return alert(CUI.util.dump(ev.target.options.position));
-        }
-      }, {
-        position: {
-          lat: 52.534078,
-          lng: 13.410464
-        },
-        title: 'A',
-        cui_onClick: function(ev) {
-          return alert(CUI.util.dump(ev.target.options.position));
-        }
-      }, {
-        position: {
-          lat: 52.515691,
-          lng: 13.387249
-        },
-        title: 'B',
-        cui_onClick: function(ev) {
-          return alert(CUI.util.dump(ev.target.options.position));
-        }
-      }
-    ];
-    map = new CUI.LeafletMap({
-      "class": "workshop-map",
-      clickable: false,
-      zoomToFitAllMarkersOnInit: true,
-      onClick: (function(_this) {
-        return function() {
-          return console.log("Click");
-        };
-      })(this),
-      onReady: (function(_this) {
-        return function() {
-          return console.log("Map init");
-        };
-      })(this)
+  WorkshopRootApp.prototype.__showConfig = function() {
+    var config, configDump;
+    config = ez5.session.getBaseConfig("plugin", "fylr-plugin-workshop");
+    configDump = new CUI.ObjectDumper({
+      object: config
     });
-    map.addMarkers(staticMarkers);
-    this.__horizontalLayout.replace(map, "center");
-    return this.__searchForGeoObjects().done((function(_this) {
-      return function(markers) {
-        if (markers && markers.length > 0) {
-          return map.addMarkers(markers);
-        }
-      };
-    })(this));
-  };
-
-  WorkshopRootApp.prototype.__searchForGeoObjects = function() {
-    var column, dfr, i, len, locationFieldByObjecttype, objecttype, objecttypeName, ref, ref1, validObjecttypes;
-    dfr = new CUI.Deferred();
-    locationFieldByObjecttype = {};
-    validObjecttypes = [];
-    console.log("Objecttypes with columns data:", ez5.schema.CURRENT._objecttype_by_name);
-    ref = ez5.schema.CURRENT._objecttype_by_name;
-    for (objecttypeName in ref) {
-      objecttype = ref[objecttypeName];
-      ref1 = objecttype.columns;
-      for (i = 0, len = ref1.length; i < len; i++) {
-        column = ref1[i];
-        if (column.type === "custom:base.custom-data-type-location.location") {
-          if (!locationFieldByObjecttype[objecttypeName]) {
-            locationFieldByObjecttype[objecttypeName] = [];
-            validObjecttypes.push(objecttypeName);
-          }
-          locationFieldByObjecttype[objecttypeName].push(column.name);
-        }
-      }
-    }
-    console.log(locationFieldByObjecttype);
-    ez5.api.search({
-      data: {
-        debug: "WorkShopDebug"
-      },
-      json_data: {
-        type: "object",
-        objecttypes: validObjecttypes,
-        format: "long",
-        offset: 0,
-        limit: 1000,
-        search: []
-      }
-    }).done((function(_this) {
-      return function(data) {
-        var j, k, len1, len2, location, locationField, locationFields, markers, object, ref2;
-        if ((data != null ? data.count : void 0) === 0) {
-          dfr.resolve();
-        }
-        markers = [];
-        ref2 = data.objects;
-        for (j = 0, len1 = ref2.length; j < len1; j++) {
-          object = ref2[j];
-          locationFields = locationFieldByObjecttype[object._objecttype];
-          for (k = 0, len2 = locationFields.length; k < len2; k++) {
-            locationField = locationFields[k];
-            location = object[object._objecttype][locationField];
-            if (location) {
-              markers.push(location.mapPosition);
-            }
-          }
-        }
-        return dfr.resolve(markers);
-      };
-    })(this));
-    return dfr.promise();
+    return this.__horizontalLayout.replace(configDump, "center");
   };
 
   return WorkshopRootApp;
