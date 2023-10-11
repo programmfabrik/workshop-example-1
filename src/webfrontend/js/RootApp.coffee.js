@@ -27,7 +27,7 @@ WorkshopRootApp = (function(superClass) {
   };
 
   WorkshopRootApp.path = function() {
-    return ["workshop-1"];
+    return ["workshop"];
   };
 
   WorkshopRootApp.prototype.allow_unload = function() {

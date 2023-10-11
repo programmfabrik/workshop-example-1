@@ -12,7 +12,7 @@ class WorkshopRootApp extends RootMenuApp
     false
 
   @path: ->
-    ["workshop-1"]
+    ["workshop"]
 
   allow_unload: ->
     CUI.confirm(text: "Do you want to close the Workshop App?")

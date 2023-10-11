@@ -9,11 +9,11 @@ plugin:
   info:
     de-DE: "Ein Beispiel-Plugin für den Plugin-Workshop."
     en-US: "An example plugin for the plugin's workshop."
-webfrontend:
-  url: workshop.js
-  l10n: l10n/
-  css: workshop.css
-  html: workshop.html
+  webfrontend:
+    url: workshop.js
+    l10n: l10n/
+    css: workshop.css
+    html: workshop.html
 
 base_url_prefix: "webfrontend"
 
