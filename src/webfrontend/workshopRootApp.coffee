@@ -71,6 +71,7 @@ class WorkshopRootApp extends RootMenuApp
       text: "Lorem Ipsum Dolor Sit amet"
       multiline: true
     verticalListLayout = new CUI.VerticalList
+      class: "asdadsaas"
       content: [
         title
         text
