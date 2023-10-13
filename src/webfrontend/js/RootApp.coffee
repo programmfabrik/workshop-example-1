@@ -1,31 +1,40 @@
 class WorkshopRootApp extends RootMenuApp
+
+	# Return true if the user is allowed to use this app.
 	@is_allowed: ->
 		true
 
+	# Return the group name of the app. Used to group apps in the menu.
 	@group: ->
 		"workshop-group"
 
+	# Return the label of the app. Used in the menu. See loca files, icon and text are defined there.
 	@label: ->
 		"workshop.app.label"
 
+	# Should execute the app at start?
 	@isStartApp: ->
 		false
 
+	# Return the path of the app. Used to build the url.
 	@path: ->
 		["workshop"]
 
+	# Called when trying to unload the app. Here we can ask the user if he wants to close the app.
+	# Or maybe we want to save some data before closing the app, or clean up some stuff.
 	allow_unload: ->
 		CUI.confirm(text: "Do you want to close the Workshop App?")
 
+	# Called when the app is unloaded.
 	unload: ->
+		# We remove the content of the center slot of the rootLayout of the app.
 		ez5.rootLayout.empty("center")
 		super()
 
 
-
 	load: ->
 		super()
-
+		# We get the plugin object from the pluginManager.
 		@__plugin = ez5.pluginManager.getPlugin("workshop-example-1")
 
 		itemList = new CUI.ItemList
@@ -49,12 +58,11 @@ class WorkshopRootApp extends RootMenuApp
 					@__showConfig()
 			]
 
-		itemList.render()
 
 		@__horizontalLayout = new CUI.HorizontalLayout
 			left:
 				class: "ez5-workshop-hl-left"
-				content: itemList
+				content: itemList.render()
 
 		ez5.rootLayout.replace(@__horizontalLayout, "center")
 

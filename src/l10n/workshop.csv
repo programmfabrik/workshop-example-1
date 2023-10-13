@@ -6,3 +6,13 @@
 ,workshop.app.label,Workshop App,Workshop App
 ,root.menu.workshop.app.label|icon,fa-circle,fa-circle
 ,server.config.name.system.custom_config_1,Konfig-1,Config-1
+,tool.example-plugin-tool|text,Example Tool,Example Tool
+,tool.example-plugin-tool|icon,fa-circle,fa-circle
+,example-plugin-tool-msg,"This is an example of a custom tool added with the plugin, you have selected %(object_number)s objects.","This is an example of a custom tool added with the plugin, you have selected %(object_number)s objects."
+,tool.example-plugin-tool-group|text,Example Tools,Example Tools
+,tool.example-plugin-tool-group|icon,fa-square,fa-square
+,tool.example-plugin-tool-group-1|text,SubTool 1,SubTool 1
+,tool.example-plugin-tool-group-1|icon,fa-square,fa-square
+,tool.example-plugin-tool-group-2|text,SubTool 2,SubTool 2
+,tool.example-plugin-tool-group-2|icon,fa-square,fa-square
+,example-modal-title,"Modal Example","Modal Example"

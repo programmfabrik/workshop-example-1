@@ -55,3 +55,5 @@ class WorkshopCustomDataType extends CustomDataType
 		return
 
 CustomDataType.register(WorkshopCustomDataType)
+
+

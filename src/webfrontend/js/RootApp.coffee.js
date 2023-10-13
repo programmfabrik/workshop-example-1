@@ -80,11 +80,10 @@ WorkshopRootApp = (function(superClass) {
         }
       ]
     });
-    itemList.render();
     this.__horizontalLayout = new CUI.HorizontalLayout({
       left: {
         "class": "ez5-workshop-hl-left",
-        content: itemList
+        content: itemList.render()
       }
     });
     ez5.rootLayout.replace(this.__horizontalLayout, "center");

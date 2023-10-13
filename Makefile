@@ -1,6 +1,8 @@
 COFFEE_FILES_WEB = \
     src/webfrontend/js/RootApp.coffee \
     src/webfrontend/js/WorkshopCustomDataType.coffee \
+    src/webfrontend/js/WorkshopCustomMaskSplitter.coffee \
+    src/webfrontend/js/WorkshopCollectionPlugin.coffee \
 
 JS_WEB = build/workshop/webfrontend/workshop.js
 
