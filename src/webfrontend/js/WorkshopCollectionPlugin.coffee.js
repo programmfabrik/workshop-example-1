@@ -60,6 +60,13 @@ WorkshopCollectionPlugin = (function(superClass) {
               return _this.__runModalExample(objects);
             };
           })(this)
+        }), new ToolboxTool({
+          name: "example-plugin-tool-group-3",
+          run: (function(_this) {
+            return function() {
+              return _this.__runModalEASExample(objects);
+            };
+          })(this)
         })
       ]
     });
@@ -134,6 +141,66 @@ WorkshopCollectionPlugin = (function(superClass) {
       }
     });
     return _modal.show();
+  };
+
+  WorkshopCollectionPlugin.prototype.__runModalEASExample = function(collectionObjects) {
+    var _modal, collectionObject, easIds, i, image, j, len, len1, object, ref, ref1, standardImages;
+    _modal = new CUI.Modal({
+      pane: {
+        header_left: new LocaLabel({
+          loca_key: "example-modal-title"
+        }),
+        content: [
+          new CUI.Label({
+            text: "Here is an example on how to load images from the objects:"
+          })
+        ],
+        footer_right: [
+          new CUI.Button({
+            text: "Done",
+            onClick: (function(_this) {
+              return function() {
+                return _modal.destroy();
+              };
+            })(this)
+          })
+        ]
+      }
+    });
+    _modal.show();
+    easIds = [];
+    for (i = 0, len = collectionObjects.length; i < len; i++) {
+      collectionObject = collectionObjects[i];
+      object = collectionObject.getObject();
+      standardImages = object != null ? (ref = object._standard) != null ? (ref1 = ref.eas) != null ? ref1[1] : void 0 : void 0 : void 0;
+      for (j = 0, len1 = standardImages.length; j < len1; j++) {
+        image = standardImages[j];
+        if (image["class"] === "image") {
+          easIds.push(image._id);
+        }
+      }
+    }
+    ez5.api.eas({
+      type: "GET",
+      data: {
+        ids: JSON.stringify(easIds),
+        format: "long"
+      }
+    }).done((function(_this) {
+      return function(data) {
+        var assetPlain, id, imgElement, value, wrapperDiv;
+        for (id in data) {
+          value = data[id];
+          assetPlain = new AssetPlain({
+            value: value
+          });
+          wrapperDiv = new CUI.dom.div("example-image-wrapper");
+          imgElement = assetPlain.getImgElement(null, "original");
+          CUI.dom.append(wrapperDiv, imgElement);
+          _modal.append(wrapperDiv);
+        }
+      };
+    })(this));
   };
 
   return WorkshopCollectionPlugin;

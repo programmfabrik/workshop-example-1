@@ -14,6 +14,36 @@ WorkshopCustomMaskSplitter = (function(superClass) {
     return true;
   };
 
+  WorkshopCustomMaskSplitter.prototype.renderField = function(opts) {
+    var data;
+    data = opts.data;
+    console.log("WorkshopCustomMaskSplitter.renderField opts: ", opts);
+    return new CUI.VerticalList({
+      "class": "workshop-custom-mask-splitter",
+      content: [
+        new CUI.Label({
+          text: "This objects has and id of " + data._id + " and the version is " + data._version
+        }), new CUI.Label({
+          text: "Unsplash random photo"
+        }), this.__getRandomPhoto(), this.__getVanillaJsText()
+      ]
+    });
+  };
+
+  WorkshopCustomMaskSplitter.prototype.__getRandomPhoto = function() {
+    var img, photoSrc;
+    photoSrc = "https://source.unsplash.com/random/800x600";
+    img = CUI.dom.element("img", {
+      src: photoSrc
+    });
+    CUI.dom.addClass(img, "workshop-example-random-photo");
+    return img;
+  };
+
+  WorkshopCustomMaskSplitter.prototype.__getVanillaJsText = function() {};
+
   return WorkshopCustomMaskSplitter;
 
 })(CustomMaskSplitter);
+
+MaskSplitter.plugins.registerPlugin(WorkshopCustomMaskSplitter);

@@ -48,6 +48,11 @@ class WorkshopCollectionPlugin extends CollectionPlugin
           run: =>
             # In this one we show a modal window so as we need a lot more code we use a class method for running this tool.
             @__runModalExample(objects)
+      ,
+        new ToolboxTool
+          name: "example-plugin-tool-group-3"
+          run: =>
+            @__runModalEASExample(objects)
       ]
     tools.push(exampleTwo)
 
@@ -113,6 +118,59 @@ class WorkshopCollectionPlugin extends CollectionPlugin
           _sendButton
         ]
     _modal.show()
+
+  __runModalEASExample: (collectionObjects) ->
+    # This method is used to show an example of how to build a simple modal with the objects images from standard
+    _modal = new CUI.Modal
+      pane:
+        header_left: new LocaLabel(loca_key: "example-modal-title")
+        content: [
+          new CUI.Label(text: "Here is an example on how to load images from the objects:")
+        ]
+        footer_right: [
+           new CUI.Button
+            text: "Done"
+            onClick: =>
+              _modal.destroy()
+        ]
+    _modal.show()
+
+    # Here we start to load the images from the objects
+
+    easIds = [] # Variable to store the images ids
+    for collectionObject in collectionObjects
+      # WE have a group of collectionObjects we need to get the object from each one
+      object = collectionObject.getObject()
+      # We get the standard images from the object, if any, this are the images that are configured to be shown in the object thumbnail
+      standardImages = object?._standard?.eas?[1]
+      for image in standardImages
+        # WE make sure they are images
+        if image.class == "image"
+          # We store the id of the image
+          easIds.push(image._id)
+    # Now we have the ids of all standard images we are going to use the EAS api to get the urls of the images.
+    # On the standard data we have already the preview and small versions, but if we want bigger versions we need to get
+    # the data from the EAS api.
+    ez5.api.eas(
+      type: "GET"
+      data:
+        ids: JSON.stringify(easIds)
+        format: "long"
+    ).done( (data) =>
+      # We have the data from the EAS api, now we are going to create the img elements and append them to the modal window.
+      # for each image we create a new AssetPlain object and get the img element from it.
+      # This method handle the creation of the img element and the url for the image. including token and other stuff for authentication.
+      # But inside the data we have all the image information, including the urls so feel free to use the data in other ways.
+      for id, value of data
+        assetPlain = new AssetPlain(value: value)
+        wrapperDiv = new CUI.dom.div("example-image-wrapper")
+        imgElement = assetPlain.getImgElement(null, "original")
+        CUI.dom.append(wrapperDiv, imgElement)
+        _modal.append(wrapperDiv)
+      return
+    )
+    return
+
 
 
 # We register the plugin when the app is initialized
